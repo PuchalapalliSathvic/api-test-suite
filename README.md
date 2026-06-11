@@ -25,6 +25,8 @@ The suite contains **15 test cases** across three endpoints, and every test chec
 **`/comments`** is where I test query parameter filtering. Requesting `/comments?postId=1` should return only comments belonging to post 1, so the test asserts that every comment in the response has `postId == 1` rather than just checking that something came back. A second test confirms that filtering by a postId that does not exist returns an empty list with a 200, which is the correct "no results" behavior (as opposed to a 404, which would mean the route itself was not found).
 
 ## How the project is organized
+
+```
 api-test-suite/
 ├── tests/
 │   ├── test_posts.py       # GET, POST, PUT, DELETE
@@ -34,6 +36,7 @@ api-test-suite/
 ├── pytest.ini              # pytest configuration
 ├── requirements.txt
 └── .github/workflows/tests.yml   # CI pipeline
+```
 
 The file `conftest.py` holds shared fixtures, namely the API base URL and a sample payload for the create tests. Pytest injects these into any test that asks for them, which means the base URL lives in exactly one place. If I ever pointed this suite at a different environment, such as a staging server, it would be a one line change.
 
@@ -41,17 +44,19 @@ The file `conftest.py` holds shared fixtures, namely the API base URL and a samp
 
 You will need Python 3.10 or newer.
 
-```bash
-git clone <repo-url>
+```
+git clone https://github.com/PuchalapalliSathvic/api-test-suite.git
 cd api-test-suite
 python3 -m venv venv
-source venv/bin/activate        # on Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+On Windows, activate with `venv\Scripts\activate` instead.
+
 ## Running the tests
 
-```bash
+```
 pytest
 ```
 
@@ -59,10 +64,12 @@ That is all it takes, since `pytest.ini` already configures verbose output. You 
 
 A couple of variations I find useful:
 
-```bash
-pytest tests/test_posts.py    # run just one file
-pytest -k "404"               # run only the error handling tests
 ```
+pytest tests/test_posts.py
+pytest -k "404"
+```
+
+The first runs a single file and the second runs only the error handling tests.
 
 ## Continuous integration
 
